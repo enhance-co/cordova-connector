@@ -1,0 +1,29 @@
+{
+  "name": "enhance-cordova-connector",
+  "version": "1.0.0",
+  "description": "Enhance drag and drop library for Cordova.",
+  "cordova": {
+    "id": "cordova-plugin-enhance",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "-"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.4.0"
+    }
+  ],
+  "author": "Enhance, Inc.",
+  "license": "ISC"
+}

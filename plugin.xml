@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="cordova-plugin-enhance"
+        version="1.0.0">
+
+  <name>EnhanceCordovaPlugin</name>
+
+  <engines>
+    <engine name="cordova" version=">=3.4.0"/>
+  </engines>
+
+  <asset src="www/enhance.js" target="js/enhance.js"/>
+
+  <js-module src="www/enhance.js" name="Enhance">
+    <clobbers target="Enhance" />
+  </js-module>
+
+  <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="Enhance">
+        <param name="android-package" value="com.fgl.enhance.cordova.CDVEnhance"/>
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/CDVEnhance.java" target-dir="src/com/fgl/enhance/cordova" />
+    <source-file src="src/android/FGL-Enhance-Connector.jar" target-dir="libs" framework="true" />
+    <source-file src="src/android/android-support-v4.jar" target-dir="libs" framework="true" />
+  </platform>
+
+  <platform name="ios">
+    
+    <config-file target="config.xml" parent="/widget">
+      <feature name="Enhance">
+        <param name="ios-package" value="CDVEnhance" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/CDVEnhance.h" target-dir="EnhancePlugin"/>
+    <source-file src="src/ios/CDVEnhance.m" target-dir="EnhancePlugin"/>
+    <header-file src="src/ios/FglEnhance.h" target-dir="EnhancePlugin"/>
+    <header-file src="src/ios/FglEnhancePlus.h" target-dir="EnhancePlugin"/>
+    <header-file src="src/ios/FglEnhanceInAppPurchases.h" target-dir="EnhancePlugin"/>
+    <source-file src="src/ios/libconnector.a" framework="true" target-dir="EnhancePlugin"/>
+  </platform>
+
+</plugin>
