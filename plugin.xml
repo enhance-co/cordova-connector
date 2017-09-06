@@ -25,7 +25,6 @@
 
     <source-file src="src/android/CDVEnhance.java" target-dir="src/com/fgl/enhance/cordova" />
     <source-file src="src/android/FGL-Enhance-Connector.jar" target-dir="libs" framework="true" />
-    <source-file src="src/android/android-support-v4.jar" target-dir="libs" framework="true" />
   </platform>
 
   <platform name="ios">
