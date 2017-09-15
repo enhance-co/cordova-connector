@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "-"
+    "url": "https://github.com/enhance-co/cordova-connector.git"
   },
   "keywords": [
     "ecosystem:cordova",
