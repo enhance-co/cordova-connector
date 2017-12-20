@@ -20,6 +20,9 @@ import com.fgl.enhance.connector.FglEnhanceInAppPurchases.ConsumeCallback;
 import com.fgl.enhance.connector.FglEnhanceInAppPurchases;
 import com.fgl.enhance.connector.FglEnhancePlus;
 
+import co.enhance.Enhance;
+import co.enhance.EnhanceInAppPurchases;
+
 // Cordova plugin class
 
 public class CDVEnhance extends CordovaPlugin {
@@ -27,7 +30,7 @@ public class CDVEnhance extends CordovaPlugin {
    public static final String TAG = "FglEnhanceCordova";
    
    // Cordova connector version
-   private static final String CORDOVA_CONNECTOR_VERSION = "2.5.5";
+   private static final String CORDOVA_CONNECTOR_VERSION = "3.0.0";
       
    // Initialize connector
    
@@ -36,7 +39,7 @@ public class CDVEnhance extends CordovaPlugin {
         super.initialize (cordova, webView);
         Activity activity = cordova.getActivity ();
         Log.d (TAG, "initialize Cordova connector version " + CORDOVA_CONNECTOR_VERSION + " with activity " + activity);
-        FglEnhance.initialize (activity);
+        Enhance.initialize (activity);
     }
    
    // Execute Enhance command
@@ -67,7 +70,7 @@ public class CDVEnhance extends CordovaPlugin {
         else if (action.equals ("isInterstitialReady")) {
             try {
                 String strPlacementType = args.getString (0);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, FglEnhance.isInterstitialReady(strPlacementType.toLowerCase())));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, Enhance.isInterstitialReady(strPlacementType.toLowerCase())));
                 return true;
             } catch (Exception e) {
                 Log.e (TAG, "exception in isInterstitialReady: " + e.toString());
@@ -81,7 +84,7 @@ public class CDVEnhance extends CordovaPlugin {
         else if (action.equals ("showInterstitialAd")) {
             try {
                 String strPlacementType = args.getString (0);
-                FglEnhance.showInterstitialAd(strPlacementType.toLowerCase());
+                Enhance.showInterstitialAd(strPlacementType.toLowerCase());
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -96,7 +99,7 @@ public class CDVEnhance extends CordovaPlugin {
         else if (action.equals ("isRewardedAdReady")) {
             try {
                 String strPlacement = args.getString(0).toLowerCase();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, FglEnhance.isRewardedAdReady(strPlacement)));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, Enhance.isRewardedAdReady(strPlacement)));
                 return true;
             } catch (Exception e) {
                 Log.e (TAG, "exception in isRewardedAdReady: " + e.toString());
@@ -111,15 +114,15 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 String strPlacementType = args.getString (0);
 
-                FglEnhance.showRewardedAd (new FglEnhance.RewardCallback() {
+                Enhance.showRewardedAd (new Enhance.RewardCallback() {
                     @Override
-                    public void onRewardGranted(int rewardValue, FglEnhance.RewardType rewardType) {
+                    public void onRewardGranted(int rewardValue, Enhance.RewardType rewardType) {
                         // Reward granted
                         String strRewardType = "";
 
                         // Match reward type in cordova connector
-                        if(rewardType == FglEnhance.RewardType.ITEM) strRewardType = "item";
-                        else if(rewardType == FglEnhance.RewardType.COINS) strRewardType = "coins";
+                        if(rewardType == Enhance.RewardType.ITEM) strRewardType = "item";
+                        else if(rewardType == Enhance.RewardType.COINS) strRewardType = "coins";
 
                         JSONArray resultArray = new JSONArray();
                         resultArray.put(rewardValue);
@@ -156,7 +159,7 @@ public class CDVEnhance extends CordovaPlugin {
         else if (action.equals ("isBannerAdReady")) {
             try {
                 String placement = args.getString(0).toLowerCase();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, FglEnhance.isBannerAdReady(placement)));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, Enhance.isBannerAdReady(placement)));
                 return true;
             } catch (Exception e) {
                 Log.e (TAG, "exception in isBannerAdReady: " + e.toString());
@@ -172,12 +175,12 @@ public class CDVEnhance extends CordovaPlugin {
                 String strPosition = args.getString (0);
                 String placement = args.getString(1).toLowerCase();
             
-                Position pos = Position.TOP;
+                Enhance.Position pos = Enhance.Position.TOP;
 
                 if (strPosition != null && strPosition.toUpperCase().equals("BOTTOM"))
-                    pos = Position.BOTTOM;
+                    pos = Enhance.Position.BOTTOM;
 
-                FglEnhance.showBannerAdWithPosition(placement, pos);
+                Enhance.showBannerAdWithPosition(placement, pos);
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -191,7 +194,7 @@ public class CDVEnhance extends CordovaPlugin {
 
         else if (action.equals ("hideBannerAd")) {
             try {
-                FglEnhance.hideBannerAd();
+                Enhance.hideBannerAd();
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -206,7 +209,7 @@ public class CDVEnhance extends CordovaPlugin {
         else if (action.equals ("isSpecialOfferReady")) {
             try {
                 String placement = args.getString(0).toLowerCase();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, FglEnhance.isSpecialOfferReady(placement)));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, Enhance.isSpecialOfferReady(placement)));
                 return true;
             } catch (Exception e) {
                 Log.e (TAG, "exception in isSpecialOfferReady: " + e.toString());
@@ -221,7 +224,7 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 String placement = args.getString(0).toLowerCase();
 
-                FglEnhance.showSpecialOffer(placement);
+                Enhance.showSpecialOffer(placement);
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -236,7 +239,7 @@ public class CDVEnhance extends CordovaPlugin {
         else if (action.equals ("isOfferwallReady")) {
             try {
                 String placement = args.getString(0).toLowerCase();
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, FglEnhance.isOfferwallReady(placement)));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, Enhance.isOfferwallReady(placement)));
                 return true;
             } catch (Exception e) {
                 Log.e (TAG, "exception in isOfferwallReady: " + e.toString());
@@ -251,7 +254,7 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 String placement = args.getString(0).toLowerCase();
 
-                FglEnhance.showOfferwall(placement);
+                Enhance.showOfferwall(placement);
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -265,7 +268,7 @@ public class CDVEnhance extends CordovaPlugin {
 
         else if(action.equals("setCurrencyReceivedCallback")) {
             try {
-                FglEnhance.setCurrencyCallback (new FglEnhance.CurrencyCallback() {
+                Enhance.setReceivedCurrencyCallback (new Enhance.CurrencyCallback() {
                     @Override
                     public void onCurrencyGranted(int currencyAmount) {
                         Log.i (TAG, "onCurrencyGranted");
@@ -289,9 +292,9 @@ public class CDVEnhance extends CordovaPlugin {
                 String eventParamValue = args.getString (2);
 
                 if (eventParamKey != "" && eventParamValue != "")
-                    FglEnhance.logEvent(eventType, eventParamKey, eventParamValue);
+                    Enhance.logEvent(eventType, eventParamKey, eventParamValue);
                 else // Use the simplified version of event logging
-                    FglEnhance.logEvent(eventType);
+                    Enhance.logEvent(eventType);
             
                 callbackContext.success();
                 return true;
@@ -323,7 +326,7 @@ public class CDVEnhance extends CordovaPlugin {
 
         else if (action.equals ("requestLocalNotificationPermission")) {
             try {
-                FglEnhance.requestLocalNotificationPermission(new FglEnhance.PermissionCallback() {
+                Enhance.requestLocalNotificationPermission(new Enhance.PermissionCallback() {
                     @Override
                     public void onPermissionGranted() {
                         Log.i (TAG, "onPermissionGranted");               
@@ -353,7 +356,7 @@ public class CDVEnhance extends CordovaPlugin {
                 String message = args.getString (1);
                 int delay = args.getInt (2);
 
-                FglEnhance.enableLocalNotification(title,  message, delay);
+                Enhance.enableLocalNotification(title,  message, delay);
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -367,7 +370,7 @@ public class CDVEnhance extends CordovaPlugin {
 
         else if (action.equals ("disableLocalNotification")) {
             try {
-                FglEnhance.disableLocalNotification();
+                Enhance.disableLocalNotification();
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -396,7 +399,7 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 String sku = args.getString (0);
 
-                FglEnhanceInAppPurchases.attemptPurchase(sku, new PurchaseCallback() {
+                Enhance.purchases.attemptPurchase(sku, new EnhanceInAppPurchases.PurchaseCallback() {
                     @Override
                     public void onPurchaseSuccess() {                       
                         Log.i (TAG, "onPurchaseSuccess");               
@@ -424,7 +427,7 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 String sku = args.getString (0);
 
-                FglEnhanceInAppPurchases.consume(sku, new ConsumeCallback() {
+                Enhance.purchases.consume(sku, new EnhanceInAppPurchases.ConsumeCallback() {
                     @Override
                     public void onConsumeSuccess() {                        
                         Log.i (TAG, "onConsumeSuccess");                
@@ -452,7 +455,7 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 String sku = args.getString (0);
                 String defaultPrice = args.getString (1);
-                String displayPrice = FglEnhanceInAppPurchases.getDisplayPrice(sku, defaultPrice);
+                String displayPrice = Enhance.purchases.getDisplayPrice(sku, defaultPrice);
             
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, displayPrice));
                 return true;
@@ -469,7 +472,7 @@ public class CDVEnhance extends CordovaPlugin {
         else if (action.equals ("isItemOwned")) {
             try {
                 String sku = args.getString (0);
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, FglEnhanceInAppPurchases.isItemOwned(sku)));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, Enhance.purchases.isItemOwned(sku)));
                 return true;
             } catch (Exception e) {
                 Log.e (TAG, "exception in isItemOwned: " + e.toString());
@@ -483,12 +486,72 @@ public class CDVEnhance extends CordovaPlugin {
         else if(action.equals("getOwnedItemCount")) {
             try {
                 String sku = args.getString(0);
-                int ownedItemCount = FglEnhanceInAppPurchases.getOwnedItemCount(sku);
+                int ownedItemCount = Enhance.purchases.getOwnedItemCount(sku);
 
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, ownedItemCount)); 
                 return true;    
             } catch(Exception e) {
                 Log.e(TAG, "exception in getOwnedItemCount: " + e.toString());
+                e.printStackTrace();
+
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
+
+        else if(action.equals("manuallyRestorePurchases")) {
+            try {
+                Enhance.purchases.manuallyRestorePurchases(new EnhanceInAppPurchases.RestoreCallback() {
+                    @Override
+                    public void onRestoreSuccess() 
+                    {
+                        Log.i(TAG, "onRestoreSuccess");                
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, true));
+                    }
+
+                    @Override 
+                    public void onRestoreFailed()
+                    {
+                        Log.i(TAG, "onRestoreFailed");
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+                    }
+                });
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "exception in manuallyRestorePurchases: " + e.toString());
+                e.printStackTrace();
+
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
+
+        else if(action.equals("getDisplayTitle")) {
+            try {
+                String sku = args.getString(0);
+                String defaultTitle = args.getString(1);
+
+                String result = Enhance.purchases.getDisplayTitle(sku, defaultTitle);
+
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "exception in getDisplayTitle: " + e.toString());
+                e.printStackTrace();
+
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
+
+        else if(action.equals("getDisplayDescription")) {
+            try {
+                String sku = args.getString(0);
+                String defaultDescription = args.getString(1);
+
+                String result = Enhance.purchases.getDisplayDescription(sku, defaultDescription);
+
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "exception in getDisplayDescription: " + e.toString());
                 e.printStackTrace();
 
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));

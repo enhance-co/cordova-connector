@@ -6,23 +6,18 @@
 
 @implementation CDVEnhance {
    NSString* _tag;
-   FglEnhance* _enhance;
-   FglEnhancePlus* _enhancePlus;
-   FglEnhanceInAppPurchases* _enhanceIAP;
 
    NSString* _onInterstitialCompletedCallbackId;
    NSString* _onRewardedAdCompletedCallbackId;
    NSString* _onLocalNotificationPermissionResponseCallbackId;
    NSString* _onCurrencyGrantedCallbackId;
-   NSString* _OnPurchaseAttemptedCallbackId;
+   NSString* _onPurchaseAttemptedCallbackId;
+   NSString* _onConsumeAttemptedCallbackId;
+   NSString* _onManualRestoreCallbackId;
 }
 
 - (void)pluginInitialize {
    _tag = @"Enhance Cordova Plugin: %@";
-   _enhance = [FglEnhance sharedInstance];
-   _enhancePlus = [FglEnhancePlus sharedInstance];
-   _enhanceIAP = [FglEnhanceInAppPurchases sharedInstance];
-
    NSLog(_tag, @"initialized");
 }
 
@@ -32,7 +27,7 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   bool success = [_enhance isInterstitialReady:[placement lowercaseString]];
+   bool success = [Enhance isInterstitialReady:[placement lowercaseString]];
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
 
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -44,18 +39,19 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   [_enhance showInterstitial:[placement lowercaseString]];
+   [Enhance showInterstitialAd:[placement lowercaseString]];
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
 
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+// deprecated
+
 - (void)setInterstitialCallback:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"setInterstitialCallback");
-
    _onInterstitialCompletedCallbackId = command.callbackId;
 
-   [_enhance setInterstitialDelegate:self];
+   [[FglEnhance sharedInstance] setInterstitialDelegate:self];
 }
 
 - (void)isRewardedAdReady:(CDVInvokedUrlCommand*)command {
@@ -64,7 +60,7 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];  
    
-   bool success = [_enhance isRewardedAdReady:[placement uppercaseString]];
+   bool success = [Enhance isRewardedAdReady:[placement uppercaseString]];
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
 
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -76,7 +72,7 @@
    NSString* placement = [command.arguments objectAtIndex:0];  
    _onRewardedAdCompletedCallbackId = command.callbackId;
 
-   [_enhance showRewardedAd:self placement:[placement uppercaseString]];
+   [Enhance showRewardedAd:self placement:[placement uppercaseString]];
 }
 
 - (void)isBannerAdReady:(CDVInvokedUrlCommand*)command {
@@ -85,7 +81,7 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   bool success = [_enhance isBannerAdReady:[placement lowercaseString]];    
+   bool success = [Enhance isBannerAdReady:[placement lowercaseString]];    
    
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];  
@@ -104,7 +100,7 @@
    else 
       position = POSITION_BOTTOM;
 
-   [_enhance showBannerAd:placement position:position];
+   [Enhance showBannerAdWithPosition:placement position:position];
 
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId]; 
@@ -113,7 +109,7 @@
 - (void)hideBannerAd:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"hideBannerAd");
 
-   [_enhance hideBannerAd];
+   [Enhance hideBannerAd];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
@@ -125,7 +121,7 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   bool success = [_enhance isSpecialOfferReady:[placement lowercaseString]];    
+   bool success = [Enhance isSpecialOfferReady:[placement lowercaseString]];    
    
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];     
@@ -136,7 +132,7 @@
 
    NSString* placement = [command.arguments objectAtIndex:0];  
 
-   [_enhance showSpecialOffer:[placement lowercaseString]];
+   [Enhance showSpecialOffer:[placement lowercaseString]];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
@@ -148,7 +144,7 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   bool success = [_enhance isOfferwallReady:[placement lowercaseString]];    
+   bool success = [Enhance isOfferwallReady:[placement lowercaseString]];    
    
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];    
@@ -159,7 +155,7 @@
 
    NSString* placement = [command.arguments objectAtIndex:0];  
 
-   [_enhance showOfferwall:[placement lowercaseString]];
+   [Enhance showOfferwall:[placement lowercaseString]];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
@@ -170,7 +166,7 @@
 
    _onLocalNotificationPermissionResponseCallbackId = command.callbackId;
 
-   [_enhance requestLocalNotificationPermission:self];
+   [Enhance requestLocalNotificationPermission:self];
 }
 
 - (void)enableLocalNotification:(CDVInvokedUrlCommand*)command {
@@ -180,7 +176,7 @@
    NSString* msg = [command.arguments objectAtIndex:1];
    NSNumber* delaySeconds = [command.arguments objectAtIndex:2];
 
-   [_enhance enableLocalNotificationWithTitle:title message:msg delay:(int)[delaySeconds integerValue]];
+   [Enhance enableLocalNotificationWithTitle:title message:msg delay:(int)[delaySeconds integerValue]];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];   
@@ -189,7 +185,7 @@
 - (void)disableLocalNotification:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"disableLocalNotification");
 
-   [_enhance disableLocalNotification];
+   [Enhance disableLocalNotification];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId]; 
@@ -203,9 +199,9 @@
    NSString* eventParamValue = [command.arguments objectAtIndex: 2];
 
    if(![eventParamKey isEqualToString:@""] && ![eventParamValue isEqualToString:@""])
-      [_enhance logEvent:eventName withParameter:eventParamKey andValue:eventParamValue];
+      [Enhance logEvent:eventName withParameter:eventParamKey andValue:eventParamValue];
    else
-      [_enhance logEvent:eventName];
+      [Enhance logEvent:eventName];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId]; 
@@ -216,8 +212,10 @@
 
    _onCurrencyGrantedCallbackId = command.callbackId;
 
-   [_enhance setCurrencyGrantedDelegate:self];
+   [Enhance setCurrencyGrantedDelegate:self];
 }
+
+// deprecated
 
 - (void)logMessage:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"logMessage");
@@ -226,7 +224,7 @@
    NSString* msg = [command.arguments objectAtIndex: 1];
 
    if(![tag isEqualToString:@""] && ![msg isEqualToString:@""]) 
-      [_enhancePlus logMessage:tag message:msg];
+      [[FglEnhancePlus sharedInstance] logMessage:tag message:msg];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId]; 
@@ -235,7 +233,7 @@
 - (void)isPurchasingSupported:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"isPurchasingSupported");
 
-   bool success = [_enhanceIAP isSupported];
+   bool success = [[Enhance purchases] isSupported];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
    [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];  
@@ -245,10 +243,9 @@
    NSLog(_tag, @"attemptPurchase");
 
    NSString* sku = [command.arguments objectAtIndex: 0];
+   _onPurchaseAttemptedCallbackId = command.callbackId;
 
-   _OnPurchaseAttemptedCallbackId = command.callbackId;
-
-   [_enhanceIAP attemptPurchase:sku delegate:self];
+   [[Enhance purchases] attemptPurchase:sku delegate:self];
 }
 
 - (void)getDisplayPrice:(CDVInvokedUrlCommand*)command {
@@ -257,7 +254,7 @@
    NSString* sku = [command.arguments objectAtIndex: 0];
    NSString* defaultPrice = [command.arguments objectAtIndex: 1];
 
-   NSString* displayPrice = [_enhanceIAP getDisplayPrice:sku defaultPrice:defaultPrice];
+   NSString* displayPrice = [[Enhance purchases] getDisplayPrice:sku defaultPrice:defaultPrice];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:displayPrice];
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];     
@@ -268,10 +265,60 @@
 
    NSString* sku = [command.arguments objectAtIndex: 0];
 
-   bool success = [_enhanceIAP isItemOwned:sku];
+   bool success = [[Enhance purchases] isItemOwned:sku];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];      
+}
+
+- (void)getOwnedItemCount:(CDVInvokedUrlCommand*)command {
+   NSLog(_tag, @"getOwnedItemCount");
+
+   NSString* sku = [command.arguments objectAtIndex: 0];
+   int result = [[Enhance purchases] getOwnedItemCount:sku];
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:result];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)consumePurchase:(CDVInvokedUrlCommand*)command {
+   NSLog(_tag, @"consumePurchase");
+
+   NSString* sku = [command.arguments objectAtIndex: 0];
+   _onConsumeAttemptedCallbackId = command.callbackId;
+
+   [[Enhance purchases] consume:sku delegate:self];
+}
+
+- (void)manuallyRestorePurchases:(CDVInvokedUrlCommand*)command {
+   NSLog(_tag, @"manuallyRestorePurchases");
+
+   _onManualRestoreCallbackId = command.callbackId;
+   [[Enhance purchases] manuallyRestorePurchases:self];
+}
+
+- (void)getDisplayTitle:(CDVInvokedUrlCommand*)command {
+   NSLog(_tag, @"getDisplayTitle");
+
+   NSString* sku = [command.arguments objectAtIndex: 0];
+   NSString* defaultTitle = [command.arguments objectAtIndex: 1];
+
+   NSString* displayTitle = [[Enhance purchases] getDisplayTitle:sku defaultTitle:defaultTitle];
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:displayTitle];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];   
+}
+
+- (void)getDisplayDescription:(CDVInvokedUrlCommand*)command {
+   NSLog(_tag, @"getDisplayDescription");
+
+   NSString* sku = [command.arguments objectAtIndex: 0];
+   NSString* defaultDesc = [command.arguments objectAtIndex: 1];
+
+   NSString* displayDesc = [[Enhance purchases] getDisplayDescription:sku defaultDescription:defaultDesc];
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:displayDesc];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];    
 }
 
 // Interstitial callbacks
@@ -343,14 +390,46 @@
    NSLog(_tag, @"onPurchaseSuccess");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _OnPurchaseAttemptedCallbackId];    
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onPurchaseAttemptedCallbackId];    
 }
 
 - (void)onPurchaseFailed {
    NSLog(_tag, @"onPurchaseFailed");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _OnPurchaseAttemptedCallbackId];   
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onPurchaseAttemptedCallbackId];   
+}
+
+// Consume callbacks
+
+- (void)onConsumeSuccess {
+   NSLog(_tag, @"onConsumeSuccess");
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onConsumeAttemptedCallbackId];     
+}
+
+- (void)onConsumeFailed {
+   NSLog(_tag, @"onConsumeSuccess");
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onConsumeAttemptedCallbackId]; 
+}
+
+// Restore callbacks
+
+- (void)onRestoreSuccess {
+   NSLog(_tag, @"onRestoreSuccess");
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onManualRestoreCallbackId];   
+}
+
+- (void)onRestoreFailed {
+   NSLog(_tag, @"onRestoreFailed");
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onManualRestoreCallbackId]; 
 }
 
 @end

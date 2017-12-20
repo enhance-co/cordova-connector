@@ -1,9 +1,11 @@
 #import <Cordova/CDVPlugin.h>
+#import "Enhance.h"
+#import "EnhanceInAppPurchases.h"
 #import "FglEnhance.h"
 #import "FglEnhancePlus.h"
 #import "FglEnhanceInAppPurchases.h"
 
-@interface CDVEnhance : CDVPlugin<InterstitialDelegate, RewardDelegate, PermissionDelegate, CurrencyGrantedDelegate, PurchaseDelegate>
+@interface CDVEnhance : CDVPlugin<InterstitialDelegate, RewardDelegate, PermissionDelegate, CurrencyGrantedDelegate, PurchaseDelegate, RestoreDelegate, ConsumeDelegate>
 
 - (void)isInterstitialReady:(CDVInvokedUrlCommand*)command;
 - (void)showInterstitialAd:(CDVInvokedUrlCommand*)command;
@@ -27,5 +29,10 @@
 - (void)attemptPurchase:(CDVInvokedUrlCommand*)command;
 - (void)getDisplayPrice:(CDVInvokedUrlCommand*)command;
 - (void)isItemOwned:(CDVInvokedUrlCommand*)command;
+- (void)getOwnedItemCount:(CDVInvokedUrlCommand*)command;
+- (void)consumePurchase:(CDVInvokedUrlCommand*)command;
+- (void)manuallyRestorePurchases:(CDVInvokedUrlCommand*)command;
+- (void)getDisplayTitle:(CDVInvokedUrlCommand*)command;
+- (void)getDisplayDescription:(CDVInvokedUrlCommand*)command;
 
 @end

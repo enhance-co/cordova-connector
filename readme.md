@@ -1,15 +1,26 @@
 # Enhance Drag & Drop Library by Enhance, Inc.
 # www.enhance.co
 # 
-# CORDOVA / XDK / PHONEGAP
+# CORDOVA
 
 Setup
 -----
 
-Include the provided plugin into your Cordova/XDK/PhoneGap project.
+Include the provided plugin into your Cordova project.
 
 Note:
+You can also obtain the latest version of this plugin on NPM and GitHub:
+
+https://www.npmjs.com/package/enhance-cordova-connector
+https://github.com/enhance-co/cordova-connector.git
+
+This can be handy if you use external tool for packing your app, Cocoon.IO for example.
+
+Introduction
+------------
+
 Due to nature of JavaScript, most of Enhance functions are based on callbacks. These callbacks can receive different values. If you check ad's availability, it is usually one boolean(true or false), which tells you whether the ad is ready or not. If you are unsure how you should handle a response, please refer to the demo project or documentation.
+
 
 Interstitial Ads
 ----------------
@@ -78,7 +89,7 @@ Offer Walls show full screen of real world offers(e.g. surveys), usually with re
 
 1) Set currency callback. It's called whenever the user receives a reward from offerwall. It's important to do it in the 'deviceready' event.
 
-    Enhance.setCurrencyReceivedCallback(onCurrencyReceived);
+    Enhance.setReceivedCurrencyCallback(onCurrencyReceived);
 
 2) Check whether any offer wall is available:
 
@@ -140,11 +151,52 @@ Local Notifications are reminders displayed on your mobile device's screen after
 
     Enhance.disableLocalNotification();
 
+In-App Purchases
+----------------
+
+Enhance library provides a set of functions which help you to easily make use of different In-App Purchases SDKs in your application.
+
+1) Check if In-App purchasing is currently supported:
+
+    Enhance.purchases.isSupported(isSupportedCallback);
+
+2) Start the purchase flow for the given product:
+
+    Enhance.purchases.attemptPurchase('product_name', onPurchaseSuccess, onPurchaseFailed);
+
+3) Try to consume the given product from the user's inventory:
+
+    Enhance.purchases.consume('product_name', onConsumeSuccess, onConsumeFailed);
+
+4) Check if item is already owned:
+
+    Enhance.purchases.isItemOwned('product_name', resultCallback);
+
+5) Get the number of the given product that user owns, or 0 if none:
+
+    Enhance.purchases.getOwnedItemCount('product_name', resultCallback);
+
+6) Get the string containing the localized display title:
+    
+    Enhance.purchases.getDisplayTitle('product_name', 'default_title', resultCallback);
+
+7) Get the string containing the localized display description:
+
+    Enhance.purchases.getDisplayDescription('product_name', 'default_description', resultCallback);
+
+8) Get the string containing the localized display price:
+
+    Enahnce.purchases.getDisplayPrice('product_name', 'default_price', resultCallback);
+
+9) Manually restore purchases and update the user's inventory, if applicable:
+
+    Enhance.purchases.manuallyRestorePurchases(onRestoreSuccess, onRestoreFailed);
+
 
 Advanced Usage
 --------------
 
-Most of Enhance functions accept additional parameters which can be useful for advanced users. For example, instead of simple Enhance.isInterstitialReady(isReadyCallback); you can use Enhance.isInterstitialReady(isReadyCallback, 'my_placement');.
+Most of Enhance functions accept additional parameters which can be useful for advanced users. For example, instead of simple Enhance.isInterstitialReady(isReadyCallback); you can use Enhance.isInterstitialReady(isReadyCallback, 'my_placement').
 
 
 Demo Project

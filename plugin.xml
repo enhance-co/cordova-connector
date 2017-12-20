@@ -24,7 +24,7 @@
     </config-file>
 
     <source-file src="src/android/CDVEnhance.java" target-dir="src/com/fgl/enhance/cordova" />
-    <source-file src="src/android/FGL-Enhance-Connector.jar" target-dir="libs" framework="true" />
+    <source-file src="src/android/Enhance.jar" target-dir="libs" framework="true" />
   </platform>
 
   <platform name="ios">
@@ -40,6 +40,8 @@
     <header-file src="src/ios/FglEnhance.h" target-dir="EnhancePlugin"/>
     <header-file src="src/ios/FglEnhancePlus.h" target-dir="EnhancePlugin"/>
     <header-file src="src/ios/FglEnhanceInAppPurchases.h" target-dir="EnhancePlugin"/>
+    <header-file src="src/ios/Enhance.h" target-dir="EnhancePlugin"/>
+    <header-file src="src/ios/EnhanceInAppPurchases.h" target-dir="EnhancePlugin"/>
     <source-file src="src/ios/libconnector.a" framework="true" target-dir="EnhancePlugin"/>
   </platform>
 
