@@ -1,4 +1,4 @@
-package com.fgl.enhance.cordova;
+package co.enhance.cordova.enhance;
 
 import java.util.Arrays;
 import java.util.Map;
