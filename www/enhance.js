@@ -469,6 +469,34 @@ var Enhance = {
         exec(null, null, Enhance.serviceName, 'logMessage', [tag, msg]);
     },
 
+    requiresDataConsentOptIn : function(onServiceOptInRequirementCallback) {
+        exec(onServiceOptInRequirementCallback, null, Enhance.serviceName, "requiresDataConsentOptIn", []);
+    },
+
+    serviceTermsOptIn : function(requestedSdks) {
+        var requestedSdksAsString = '';
+
+        if(requestedSdks != null && requestedSdks['toString'] != null) {
+            requestedSdksAsString = requestedSdks.toString();
+        }
+
+        exec(null, null, Enhance.serviceName, "serviceTermsOptIn", [requestedSdksAsString]);
+    },
+
+    showServiceOptInDialogs : function(requestedSdks, onDialogCompleteCallback) {
+        var requestedSdksAsString = '';
+
+        if(requestedSdks != null && requestedSdks['toString'] != null) {
+            requestedSdksAsString = requestedSdks.toString();
+        }
+
+        exec(onDialogCompleteCallback, null, Enhance.serviceName, "showServiceOptInDialogs", [requestedSdksAsString]);
+    },
+
+    serviceTermsOptOut : function() {
+        exec(null, null, Enhance.serviceName, "serviceTermsOptOut", []);
+    },
+
     /** 
      * @private
      * Object containing IAP support

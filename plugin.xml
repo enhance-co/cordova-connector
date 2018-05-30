@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-enhance"
-    version="2.1.0">
+    version="3.0.0">
     <name>EnhanceCordovaPlugin</name>
 
     <js-module src="www/enhance.js" name="Enhance">
@@ -34,6 +34,7 @@
         <header-file src="src/ios/FglEnhanceInAppPurchases.h" target-dir="EnhancePlugin"/>
         <header-file src="src/ios/Enhance.h" target-dir="EnhancePlugin"/>
         <header-file src="src/ios/EnhanceInAppPurchases.h" target-dir="EnhancePlugin"/>
+        <header-file src="src/ios/EnhanceSettings.h" target-dir="EnhancePlugin"/>
         <source-file src="src/ios/libconnector.a" framework="true" target-dir="EnhancePlugin"/>
     </platform>
 

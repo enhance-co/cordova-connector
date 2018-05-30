@@ -2,6 +2,7 @@ package co.enhance.cordova.enhance;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.List;
 import android.app.Activity;
 import android.util.Log;
 import org.apache.cordova.CallbackContext;
@@ -27,7 +28,7 @@ import co.enhance.EnhanceInAppPurchases;
 
 public class CDVEnhance extends CordovaPlugin {
    // Tag for logging
-   public static final String TAG = "FglEnhanceCordova";
+   public static final String TAG = "EnhanceCordova";
    
    // Cordova connector version
    private static final String CORDOVA_CONNECTOR_VERSION = "3.0.0";
@@ -554,6 +555,84 @@ public class CDVEnhance extends CordovaPlugin {
                 Log.e(TAG, "exception in getDisplayDescription: " + e.toString());
                 e.printStackTrace();
 
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
+
+        else if(action.equals("requiresDataConsentOptIn")) {
+            try {
+                Enhance.requiresDataConsentOptIn(new Enhance.OptInRequiredCallback() {
+                    public void onServiceOptInRequirement(boolean isUserOptInRequired)
+                    {
+                        Log.d(TAG, "onServiceOptInRequirement");
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, isUserOptInRequired));
+                    }
+                });
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "exception in requiresDataConsentOptIn: " + e.toString());
+                e.printStackTrace();
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
+
+        else if(action.equals("serviceTermsOptIn")) {
+            try {
+                String sdks = args.getString(0);
+
+                if(sdks != null && !sdks.isEmpty()) {
+                    Log.d(TAG, "serviceTermsOptIn: " + sdks);
+                    List<String> requestedSdks = Arrays.asList(sdks.split(","));
+                    Enhance.serviceTermsOptIn(requestedSdks);
+                } else {
+                    Log.d(TAG, "serviceTermsOptIn: all");
+                    Enhance.serviceTermsOptIn();
+                }
+
+                callbackContext.success();
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "exception in serviceTermsOptIn: " + e.toString());
+                e.printStackTrace();
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
+
+        else if(action.equals("showServiceOptInDialogs")) {
+            try {
+                final Enhance.OnDataConsentOptInComplete callback = new Enhance.OnDataConsentOptInComplete() {
+                    public void onDialogComplete() {
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, true));
+                    }
+                };
+
+                String sdks = args.getString(0);
+
+                if(sdks != null && !sdks.isEmpty()) {
+                    Log.d(TAG, "showServiceOptInDialogs: " + sdks);
+                    List<String> requestedSdks = Arrays.asList(sdks.split(","));
+                    Enhance.showServiceOptInDialogs(requestedSdks, callback);
+                } else {
+                    Log.d(TAG, "showServiceOptInDialogs: all");
+                    Enhance.showServiceOptInDialogs(callback);
+                }
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "exception in showServiceOptInDialogs: " + e.toString());
+                e.printStackTrace();
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
+
+        else if(action.equals("serviceTermsOptOut")) {
+            try {
+                Log.d(TAG, "serviceTermsOptOut");
+                Enhance.serviceTermsOptOut();
+                callbackContext.success();
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "exception in serviceTermsOptOut: " + e.toString());
+                e.printStackTrace();
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
             }
         }

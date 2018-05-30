@@ -5,7 +5,7 @@
 #import "FglEnhancePlus.h"
 #import "FglEnhanceInAppPurchases.h"
 
-@interface CDVEnhance : CDVPlugin<InterstitialDelegate, RewardDelegate, PermissionDelegate, CurrencyGrantedDelegate, PurchaseDelegate, RestoreDelegate, ConsumeDelegate>
+@interface CDVEnhance : CDVPlugin<InterstitialDelegate, RewardDelegate, PermissionDelegate, CurrencyGrantedDelegate, PurchaseDelegate, RestoreDelegate, ConsumeDelegate, DataConsentDelegate>
 
 - (void)isInterstitialReady:(CDVInvokedUrlCommand*)command;
 - (void)showInterstitialAd:(CDVInvokedUrlCommand*)command;
@@ -34,5 +34,9 @@
 - (void)manuallyRestorePurchases:(CDVInvokedUrlCommand*)command;
 - (void)getDisplayTitle:(CDVInvokedUrlCommand*)command;
 - (void)getDisplayDescription:(CDVInvokedUrlCommand*)command;
+- (void)requiresDataConsentOptIn:(CDVInvokedUrlCommand*)command;
+- (void)serviceTermsOptIn:(CDVInvokedUrlCommand*)command;
+- (void)showServiceOptInDialogs:(CDVInvokedUrlCommand*)command;
+- (void)serviceTermsOptOut:(CDVInvokedUrlCommand*)command;
 
 @end
