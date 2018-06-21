@@ -32,6 +32,7 @@ Interstitial Ads
 
 Interstitial Ads are short static or video ads, usually shown between levels or when game is over. 
 
+
 Example Usage:
 
 var callback = function(result) {
@@ -44,6 +45,7 @@ var callback = function(result) {
 };
 
 Enhance.isInterstitialReady(callback);
+
 
 Methods:
 
@@ -70,6 +72,7 @@ Rewarded Ads
 ------------
 
 Rewarded Ads are usually full-screen video ads which users can view to receive a reward inside the application, like an additional in-game currency or a health bonus.
+
 
 Example Usage:
 
@@ -101,6 +104,7 @@ var callback = function(result) {
 
 Enhance.isRewardedAdReady(callback);
 
+
 Methods:
 
 void Enhance.isRewardedAdReady(
@@ -125,6 +129,7 @@ Callbacks specify functions which are invoked when reward is granted, declined o
 Placement is an optional internal placement (from the Enhance mediation editor).
 Returns nothing.
 
+
 Members:
 
 string Enhance.RewardType.ITEM
@@ -137,6 +142,7 @@ Banner Ads
 ----------
 
 Banner Ads are small sized ads displayed on the screen as a rectangle filled with content without interrupting the flow of the app.
+
 
 Example Usage:
 
@@ -158,6 +164,7 @@ var callback = function(result) {
 };
 
 Enhance.isBannerAdReady(callback);
+
 
 Methods:
 
@@ -187,6 +194,7 @@ void Enhance.hideBannerAd()
 Hide the banner ad which is currently visible, if any.
 Returns nothing.
 
+
 Members:
 
 string Enhance.Position.TOP
@@ -215,6 +223,7 @@ var callback = function(result) {
 };
 
 Enhance.isOfferwallReady(callback);
+
 
 Methods:
 
@@ -250,6 +259,7 @@ Special Offers
 
 Special offers are real world offers (e.g. surveys). They are available through Enhance ZeroCode, but you can also request them manually from code.
 
+
 Example Usage:
 
 var callback = function(result) {
@@ -262,6 +272,7 @@ var callback = function(result) {
 };
 
 Enhance.isSpecialOfferReady(callback);
+
 
 Methods:
 
@@ -289,10 +300,12 @@ Analytics
 
 The connector library allows you to send custom events to the hooked analytics networks.
 
+
 Example Usage:
 
 Enhance.logEvent('game_over', 'level', '2');
 Enhance.logEvent('exit');
+
 
 Methods:
 
@@ -310,6 +323,7 @@ Local Notifications
 
 Local Notifications are reminders which show up on your screen after the app becomes inactive for a specific amount of time.
 
+
 Example Usage:
 
 var onPermissionGranted = function() {
@@ -322,6 +336,7 @@ var onPermissionRefused = function() {
 };
 
 Enhance.requestLocalNotificationPermission(OnPermissionGranted, OnPermissionRefused);
+
 
 Methods:
 
@@ -353,6 +368,7 @@ In-App Purchases
 
 The connector library provides a set of functions which help you to make use of different In-App Purchases SDKs in your application.
 
+
 Example Usage:
 
 var callback = function() {
@@ -371,6 +387,7 @@ var callback = function() {
 
 Enhance.purchases.isSupported(callback);
 
+
 Methods:
 
 void Enhance.purchases.isSupported(
@@ -388,7 +405,7 @@ void Enhance.purchases.attemptPurchase(
 )
 
 Start the purchase flow for the given product.
-Product name is the the reference name which you entered during the Enhance flow. 
+Product name is the reference name which you entered during the Enhance flow. 
 Callbacks specify functions which are invoked when purchase is successful or not.
 Returns nothing.
 
@@ -400,7 +417,7 @@ void Enhance.purchases.consume(
 )
 
 Consume the given product, if applicable (depends on the SDK provider).
-Product name is the the reference name which you entered during the Enhance flow.
+Product name is the reference name which you entered during the Enhance flow.
 Callbacks specify functions which are invoked when consume is successful or not.
 Returns nothing.
 
@@ -412,7 +429,7 @@ void Enhance.purchases.isItemOwned(
 
 
 Check if the given product is already owned. The result may be inaccurate, depending on whether the SDK provider stores the information about your products or not.
-Product name is the the reference name which you entered during the Enhance flow.
+Product name is the reference name which you entered during the Enhance flow.
 Returns true to callback if the item is owned, false otherwise.
 
 
@@ -422,7 +439,7 @@ void Enhance.purchases.getOwnedItemCount(
 )
 
 Get a number of the given product that user owns, or 0 if none. The result may be inaccurate, depending on whether the SDK provider stores the information about your products or not.
-Product name is the the reference name which you entered during the Enhance flow.
+Product name is the reference name which you entered during the Enhance flow.
 Returns a number of the given product copies to callback.
 
 
@@ -443,7 +460,7 @@ void Enhance.purchases.getDisplayPrice(
 )
 
 Get a localized display price of the given product, for example: "100zł", "100¥".
-Product name is the the reference name which you entered during the Enhance flow.
+Product name is the reference name which you entered during the Enhance flow.
 Default price will be used if a real one can't be fetched. 
 Returns a string containing the localized display price to callback.
 
@@ -455,7 +472,7 @@ void Enhance.purchases.getDisplayTitle(
 )
 
 Get a localized display title of the given product.
-Product name is the the reference name which you entered during the Enhance flow.
+Product name is the reference name which you entered during the Enhance flow.
 Default title will be used if a real one can't be fetched.
 Returns a string containing the localized display title to callback.
 
@@ -467,9 +484,10 @@ void Enhance.purchases.getDisplayDescription(
 )
 
 Get a localized display description of the given product.
-Product name is the the reference name which you entered during the Enhance flow.
+Product name is the reference name which you entered during the Enhance flow.
 Default description will be used if a real one can't be fetched.
 Returns a string containing the localized display description to callback.
+
 
 Demo Project
 --------------

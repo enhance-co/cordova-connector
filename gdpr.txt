@@ -14,10 +14,12 @@ The GDPR does not permit automatically opting users in, even if an opt-out metho
 
 Enhance exposes some functionality to make it possible to use these GDPR compliancy features of the SDKs you include when Enhancing your app. Ultimately, the responsibility lies with you to ensure that you are meeting the appropriate regulation.
 
+
 Implementation
 --------------
 
 For the majority of SDKs that support GDPR, you must present an appropriate choice to the user, clearly outlining what the user is agreeing to and giving them a clear choice to opt in or out. Once you have done this, you can use the methods provided in the Drag and Drop library, listed below, to convey the user's choice through to the SDKs you have integrated.
+
 
 Methods:
 
@@ -52,6 +54,7 @@ Calling this method will opt the current user in to using the services that you 
 void Enhance.serviceTermsOptOut()
 
 This explicit opt-out will instruct any GDPR compliant services that you're using that the user has specifically declined an opt-in to their data collection and processing. It can also be used to revert a previous opt-in decision by the user - if the user chooses to revoke their consent.
+
 
 Displaying your own GDPR opt-in dialog
 --------------------------------------
