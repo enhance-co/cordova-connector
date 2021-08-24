@@ -1,12 +1,12 @@
-# Enhance Drag & Drop Library by Enhance, Inc.
+# Enhance Drag & Drop Library by MobileFuse, LLC
 # https://enhance.co/documentation
-# 
+#
 # CORDOVA
 
 Setup
 -----
 
-Include the provided plugin into your Cordova project. There are different ways to do that, depending on which tools you use. 
+Include the provided plugin into your Cordova project. There are different ways to do that, depending on which tools you use.
 
 Cordova CLI:
 
@@ -16,7 +16,7 @@ cordova plugin add enhance-cordova-connector
 
 Cocoon.IO:
 
-Go to the Settings page and switch to the Plugins section. From the list on the left side, pick the Custom option and enter the following Git Url and press the Install button: 
+Go to the Settings page and switch to the Plugins section. From the list on the left side, pick the Custom option and enter the following Git Url and press the Install button:
 
 https://github.com/enhance-co/cordova-connector.git
 
@@ -30,7 +30,7 @@ https://github.com/enhance-co/cordova-connector.git
 Interstitial Ads
 ----------------
 
-Interstitial Ads are short static or video ads, usually shown between levels or when game is over. 
+Interstitial Ads are short static or video ads, usually shown between levels or when game is over.
 
 
 Example Usage:
@@ -55,7 +55,7 @@ void Enhance.isInterstitialReady(
 )
 
 Check if an interstitial ad from any of the included SDK providers is ready to be shown.
-Placement is optional and specifies an internal placement (from the Enhance mediation editor). 
+Placement is optional and specifies an internal placement (from the Enhance mediation editor).
 Returns true to callback if any ad is ready, false otherwise.
 
 
@@ -63,7 +63,7 @@ void Enhance.showInterstitialAd(
     placement = 'default'
 )
 
-Display a new interstitial ad if any is currently available. The ad provider is selected based on your app's mediation settings. 
+Display a new interstitial ad if any is currently available. The ad provider is selected based on your app's mediation settings.
 Placement is an optional internal placement (from the Enhance mediation editor).
 Returns nothing.
 
@@ -84,7 +84,7 @@ var callback = function(result) {
 
     // The ad is ready
     var onRewardGranted = function(rewardValue, rewardType) {
-        if(rewardType == Enhance.RewardType.ITEM) 
+        if(rewardType == Enhance.RewardType.ITEM)
             app.writeLog("Reward granted (item)");
 
         else if(rewardType == Enhance.RewardType.COINS)
@@ -382,7 +382,12 @@ var callback = function() {
         // Failure
     };
 
-    Enhance.purchases.attemptPurchase('my_product', onPurchaseSuccess, onPurchaseFailed);
+
+    var onPurchasePending = function() {
+        // product has pending status
+    };
+
+    Enhance.purchases.attemptPurchase('my_product', onPurchaseSuccess, onPurchaseFailed, onPurchasePending);
 };
 
 Enhance.purchases.isSupported(callback);
@@ -401,11 +406,12 @@ Returns true to callback if purchasing is available, false otherwise.
 void Enhance.purchases.attemptPurchase(
     productName,
     onPurchaseSuccessCallback,
-    onPurchaseFailedCallback
+    onPurchaseFailedCallback,
+    onPurchasePendingCallback
 )
 
 Start the purchase flow for the given product.
-Product name is the reference name which you entered during the Enhance flow. 
+Product name is the reference name which you entered during the Enhance flow.
 Callbacks specify functions which are invoked when purchase is successful or not.
 Returns nothing.
 
@@ -423,6 +429,17 @@ Returns nothing.
 
 
 void Enhance.purchases.isItemOwned(
+    productName,
+    resultCallback
+)
+
+
+Check if product has "pending" purchase status. The result may be inaccurate, depending on whether the SDK provider stores the information about your products or not.
+Product name is the reference name which you entered during the Enhance flow.
+Returns true to callback if the item has pending status, false otherwise.
+
+
+void Enhance.purchases.isProductStatusPending(
     productName,
     resultCallback
 )
@@ -461,7 +478,7 @@ void Enhance.purchases.getDisplayPrice(
 
 Get a localized display price of the given product, for example: "100zł", "100¥".
 Product name is the reference name which you entered during the Enhance flow.
-Default price will be used if a real one can't be fetched. 
+Default price will be used if a real one can't be fetched.
 Returns a string containing the localized display price to callback.
 
 

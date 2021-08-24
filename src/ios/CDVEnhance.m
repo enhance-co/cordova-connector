@@ -60,8 +60,8 @@
    NSLog(_tag, @"isRewardedAdReady");
 
    CDVPluginResult* pluginResult = nil;
-   NSString* placement = [command.arguments objectAtIndex:0];  
-   
+   NSString* placement = [command.arguments objectAtIndex:0];
+
    bool success = [Enhance isRewardedAdReady:[placement uppercaseString]];
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
 
@@ -71,7 +71,7 @@
 - (void)showRewardedAd:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"showRewardedAd");
 
-   NSString* placement = [command.arguments objectAtIndex:0];  
+   NSString* placement = [command.arguments objectAtIndex:0];
    _onRewardedAdCompletedCallbackId = command.callbackId;
 
    [Enhance showRewardedAd:self placement:[placement uppercaseString]];
@@ -83,10 +83,10 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   bool success = [Enhance isBannerAdReady:[placement lowercaseString]];    
-   
+   bool success = [Enhance isBannerAdReady:[placement lowercaseString]];
+
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];  
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)showBannerAdWithPosition:(CDVInvokedUrlCommand*)command {
@@ -97,15 +97,15 @@
    NSString* placement = [command.arguments objectAtIndex:1];
    Position position;
 
-   if([[positionStr lowercaseString] isEqualToString:@"top"]) 
+   if([[positionStr lowercaseString] isEqualToString:@"top"])
       position = POSITION_TOP;
-   else 
+   else
       position = POSITION_BOTTOM;
 
    [Enhance showBannerAdWithPosition:placement position:position];
 
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId]; 
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)hideBannerAd:(CDVInvokedUrlCommand*)command {
@@ -123,16 +123,16 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   bool success = [Enhance isSpecialOfferReady:[placement lowercaseString]];    
-   
+   bool success = [Enhance isSpecialOfferReady:[placement lowercaseString]];
+
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];     
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)showSpecialOffer:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"showSpecialOffer");
 
-   NSString* placement = [command.arguments objectAtIndex:0];  
+   NSString* placement = [command.arguments objectAtIndex:0];
 
    [Enhance showSpecialOffer:[placement lowercaseString]];
 
@@ -146,16 +146,16 @@
    CDVPluginResult* pluginResult = nil;
    NSString* placement = [command.arguments objectAtIndex:0];
 
-   bool success = [Enhance isOfferwallReady:[placement lowercaseString]];    
-   
+   bool success = [Enhance isOfferwallReady:[placement lowercaseString]];
+
    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];    
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)showOfferwall:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"showOfferwall");
 
-   NSString* placement = [command.arguments objectAtIndex:0];  
+   NSString* placement = [command.arguments objectAtIndex:0];
 
    [Enhance showOfferwall:[placement lowercaseString]];
 
@@ -181,7 +181,7 @@
    [Enhance enableLocalNotificationWithTitle:title message:msg delay:(int)[delaySeconds integerValue]];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];   
+   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
 }
 
 - (void)disableLocalNotification:(CDVInvokedUrlCommand*)command {
@@ -190,7 +190,7 @@
    [Enhance disableLocalNotification];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId]; 
+   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
 }
 
 - (void)logEvent:(CDVInvokedUrlCommand*)command {
@@ -206,7 +206,7 @@
       [Enhance logEvent:eventName];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId]; 
+   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
 }
 
 - (void)setCurrencyReceivedCallback:(CDVInvokedUrlCommand*)command {
@@ -225,11 +225,11 @@
    NSString* tag = [command.arguments objectAtIndex: 0];
    NSString* msg = [command.arguments objectAtIndex: 1];
 
-   if(![tag isEqualToString:@""] && ![msg isEqualToString:@""]) 
+   if(![tag isEqualToString:@""] && ![msg isEqualToString:@""])
       [[FglEnhancePlus sharedInstance] logMessage:tag message:msg];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId]; 
+   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
 }
 
 - (void)isPurchasingSupported:(CDVInvokedUrlCommand*)command {
@@ -238,8 +238,8 @@
    bool success = [[Enhance purchases] isSupported];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
-   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];  
-}  
+   [self.commandDelegate sendPluginResult: pluginResult callbackId:command.callbackId];
+}
 
 - (void)attemptPurchase:(CDVInvokedUrlCommand*)command {
    NSLog(_tag, @"attemptPurchase");
@@ -259,7 +259,7 @@
    NSString* displayPrice = [[Enhance purchases] getDisplayPrice:sku defaultPrice:defaultPrice];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:displayPrice];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];     
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)isItemOwned:(CDVInvokedUrlCommand*)command {
@@ -270,7 +270,18 @@
    bool success = [[Enhance purchases] isItemOwned:sku];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];      
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)isProductStatusPending:(CDVInvokedUrlCommand*)command {
+   NSLog(_tag, @"isProductStatusPending");
+
+   NSString* sku = [command.arguments objectAtIndex: 0];
+
+   bool success = NO;
+
+   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)getOwnedItemCount:(CDVInvokedUrlCommand*)command {
@@ -308,7 +319,7 @@
    NSString* displayTitle = [[Enhance purchases] getDisplayTitle:sku defaultTitle:defaultTitle];
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:displayTitle];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];   
+   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)getDisplayDescription:(CDVInvokedUrlCommand*)command {
@@ -337,7 +348,7 @@
 
     if([command.arguments count] > 0) {
         NSString* sdksString = [command.arguments objectAtIndex: 0];
-        
+
         if(![sdksString isEqualToString:@""]) {
             NSArray* requestedSdks = [sdksString componentsSeparatedByString:@","];
             NSLog(@"For SDKs: %@", [requestedSdks description]);
@@ -348,7 +359,7 @@
             return;
         }
     }
-    
+
     NSLog(_tag, @"For all SDKs");
     [Enhance serviceTermsOptIn];
 
@@ -418,7 +429,7 @@
    NSLog(_tag, @"onRewardUnavailable");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"unavailable"];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onRewardedAdCompletedCallbackId];   
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onRewardedAdCompletedCallbackId];
 }
 
 // Local Notification Permission callbacks
@@ -427,14 +438,14 @@
    NSLog(_tag, @"onPermissionGranted");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onLocalNotificationPermissionResponseCallbackId];     
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onLocalNotificationPermissionResponseCallbackId];
 }
 
 - (void)onPermissionRefused {
    NSLog(_tag, @"onPermissionRefused");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onLocalNotificationPermissionResponseCallbackId];     
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onLocalNotificationPermissionResponseCallbackId];
 }
 
 // Currency callbacks
@@ -443,7 +454,7 @@
    NSLog(_tag, @"onCurrencyGranted");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:amount];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onCurrencyGrantedCallbackId];     
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onCurrencyGrantedCallbackId];
 }
 
 // Purchase callbacks
@@ -452,14 +463,14 @@
    NSLog(_tag, @"onPurchaseSuccess");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onPurchaseAttemptedCallbackId];    
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onPurchaseAttemptedCallbackId];
 }
 
 - (void)onPurchaseFailed {
    NSLog(_tag, @"onPurchaseFailed");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onPurchaseAttemptedCallbackId];   
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onPurchaseAttemptedCallbackId];
 }
 
 // Consume callbacks
@@ -468,14 +479,14 @@
    NSLog(_tag, @"onConsumeSuccess");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onConsumeAttemptedCallbackId];     
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onConsumeAttemptedCallbackId];
 }
 
 - (void)onConsumeFailed {
    NSLog(_tag, @"onConsumeSuccess");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onConsumeAttemptedCallbackId]; 
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onConsumeAttemptedCallbackId];
 }
 
 // Restore callbacks
@@ -484,14 +495,14 @@
    NSLog(_tag, @"onRestoreSuccess");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:YES];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onManualRestoreCallbackId];   
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onManualRestoreCallbackId];
 }
 
 - (void)onRestoreFailed {
    NSLog(_tag, @"onRestoreFailed");
 
    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
-   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onManualRestoreCallbackId]; 
+   [self.commandDelegate sendPluginResult:pluginResult callbackId: _onManualRestoreCallbackId];
 }
 
 // GDPR callbacks

@@ -21,14 +21,14 @@ var Enhance = {
 
     Placement: {
         NEUTRAL : 'neutral',
-        SUCCESS : 'success', 
+        SUCCESS : 'success',
         HELPER : 'helper'
     },
 
-    /** 
+    /**
      * @readonly
      * @enum {string}
-     * Banner ad available positions 
+     * Banner ad available positions
      */
 
     Position: {
@@ -36,17 +36,17 @@ var Enhance = {
         BOTTOM : 'bottom'
     },
 
-    /** 
+    /**
      * @readonly
      * @enum {string}
-     * Possible reward types 
+     * Possible reward types
      */
 
     RewardType: {
         ITEM : 'item',
         COINS : 'coins'
     },
-    
+
     /**
      * Check whether an interstitial ad is ready to be shown
      *
@@ -61,7 +61,7 @@ var Enhance = {
      */
 
     isInterstitialReady : function(resultCallback, placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(resultCallback, null, Enhance.serviceName, 'isInterstitialReady', [placement]);
@@ -80,7 +80,7 @@ var Enhance = {
      */
 
     showInterstitialAd : function(placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(null, null, Enhance.serviceName, 'showInterstitialAd', [placement]);
@@ -97,14 +97,14 @@ var Enhance = {
     },
 
     /**
-     * Check whether a rewarded ad is ready to be shown 
+     * Check whether a rewarded ad is ready to be shown
      *
      * @param {resultCallback} resultCallback - callback to handle response(true if ad is ready, false if not)
      * @param {string} [placement] - optional custom placement for the ad, you can use a predefined one(check 'placement' object)
      *
      * @example
      * Enhance.isRewardedAdReady(showAdCallback);
-     * 
+     *
      * @example
      * Enhance.isRewardedAdReady(showAdCallback, 'my_placement');
      *
@@ -113,7 +113,7 @@ var Enhance = {
      */
 
     isRewardedAdReady : function(resultCallback, placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = Enhance.Placement.NEUTRAL;
 
         exec(resultCallback, null, Enhance.serviceName, 'isRewardedAdReady', [placement]);
@@ -125,7 +125,7 @@ var Enhance = {
      * @param {resultCallback} onRewardGrantedCallback - callback to handle situation when reward is granted (gets two parameters - rewardValue and rewardType)
      * @param {resultCallback} onRewardDeclinedCallback - callback to handle situation when reward is declined
      * @param {resultCallback} onRewardUnavailableCallback - callback to handle situation when reward is unavailable
-     * @param {string} [placement] - optional custom placement for the ad, you can use a predefined one(check 'placement' object) 
+     * @param {string} [placement] - optional custom placement for the ad, you can use a predefined one(check 'placement' object)
      *
      * @example
      * Enhance.showRewardedAd(onRewardGranted, onRewardDeclined, onRewardUnavailable);
@@ -142,7 +142,7 @@ var Enhance = {
     onRewardUnavailableCallback : null,
 
     showRewardedAd : function(onRewardGrantedCallback, onRewardDeclinedCallback, onRewardUnavailableCallback, placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = Enhance.Placement.NEUTRAL;
 
         Enhance.onRewardGrantedCallback = onRewardGrantedCallback;
@@ -163,7 +163,7 @@ var Enhance = {
         }
         else if(result == 'unavailable') {
             if(Enhance.onRewardUnavailableCallback != null) Enhance.onRewardUnavailableCallback();
-        } 
+        }
         else if(result != null){
             // Pass rewardValue[0] & rewardType[1]
             if(Enhance.onRewardGrantedCallback != null) Enhance.onRewardGrantedCallback(result[0], result[1]);
@@ -178,13 +178,13 @@ var Enhance = {
      *
      * @example
      * Enhance.isBannerAdReady(showAd);
-     * 
+     *
      * @example
      * Enhance.isBannerAdReady(showAd, 'my_placement')
      */
 
     isBannerAdReady : function(resultCallback, placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(resultCallback, null, Enhance.serviceName, 'isBannerAdReady', [placement]);
@@ -207,9 +207,9 @@ var Enhance = {
      */
 
     showBannerAdWithPosition : function(position, placement) {
-        if(typeof position !== 'string') 
+        if(typeof position !== 'string')
             position = Enhance.Position.BOTTOM;
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(null, null, Enhance.serviceName, 'showBannerAdWithPosition', [position, placement]);
@@ -231,7 +231,7 @@ var Enhance = {
      */
 
     isOverlayAdReady : function(resultCallback, placement) {
-        if(typeof placement != 'string') 
+        if(typeof placement != 'string')
             placement = 'default';
 
         Enhance.isBannerAdReady(resultCallback, placement);
@@ -242,9 +242,9 @@ var Enhance = {
      */
 
     showOverlayAdWithPosition : function(position, placement) {
-        if(typeof position !== 'string') 
+        if(typeof position !== 'string')
             placement = Enhance.Position.BOTTOM;
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         Enhance.showBannerAdWithPosition(position, placement);
@@ -272,7 +272,7 @@ var Enhance = {
      */
 
     isSpecialOfferReady : function(resultCallback, placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(resultCallback, null, Enhance.serviceName, 'isSpecialOfferReady', [placement]);
@@ -291,7 +291,7 @@ var Enhance = {
      */
 
     showSpecialOffer : function(placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(null, null, Enhance.serviceName, 'showSpecialOffer', [placement]);
@@ -311,7 +311,7 @@ var Enhance = {
      */
 
     isOfferwallReady : function(resultCallback, placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(resultCallback, null, Enhance.serviceName, 'isOfferwallReady', [placement]);
@@ -323,7 +323,7 @@ var Enhance = {
     /**
      * Show an offerwall
      *
-     * @param {string} [placement] - optional custom placement for the ad   
+     * @param {string} [placement] - optional custom placement for the ad
      *
      * @example
      * Enhance.showOfferwall();
@@ -333,7 +333,7 @@ var Enhance = {
      */
 
     showOfferwall : function(placement) {
-        if(typeof placement !== 'string') 
+        if(typeof placement !== 'string')
             placement = 'default';
 
         exec(Enhance._currencyReceivedCallback, null, Enhance.serviceName, 'setCurrencyReceivedCallback', []);
@@ -406,11 +406,11 @@ var Enhance = {
      */
 
     enableLocalNotification : function(title, message, delaySeconds) {
-        if(typeof title !== 'string') 
+        if(typeof title !== 'string')
             title = 'default';
-        if(typeof message !== 'string') 
+        if(typeof message !== 'string')
             message = 'default';
-        if(typeof delaySeconds !== 'number') 
+        if(typeof delaySeconds !== 'number')
             delaySeconds = 5;
 
         exec(null, null, Enhance.serviceName, 'enableLocalNotification', [title, message, delaySeconds]);
@@ -432,22 +432,22 @@ var Enhance = {
      *
      * @param {string} eventType - type/name of the event
      * @param {string} [paramKey] - optional parameter key
-     * @param {string} [paramValue] - optional parameter value 
+     * @param {string} [paramValue] - optional parameter value
      *
      * @example
      * Enhance.logEvent('game_start');
      *
-     * @example 
+     * @example
      * Enhance.logEvent('game_over', 'level', '2');
      */
 
     logEvent: function(eventType, paramKey, paramValue) {
-        if(typeof eventType !== 'string') 
+        if(typeof eventType !== 'string')
             eventType = 'default';
-        if(typeof paramKey !== 'string') 
+        if(typeof paramKey !== 'string')
             paramKey = '';
-        if(typeof paramValue !== 'string') 
-            paramValue = '';        
+        if(typeof paramValue !== 'string')
+            paramValue = '';
 
         exec(null, null, Enhance.serviceName, 'logEvent', [eventType, paramKey, paramValue]);
     },
@@ -457,13 +457,13 @@ var Enhance = {
      * Log debug message
      *
      * @param {string} tag - tag of the message
-     * @param {string} msg - text of the message 
+     * @param {string} msg - text of the message
      */
 
     logMessage : function(tag, msg) {
-        if(typeof tag !== 'string') 
+        if(typeof tag !== 'string')
             tag = '';
-        if(typeof msg !== 'string') 
+        if(typeof msg !== 'string')
             msg = '';
 
         exec(null, null, Enhance.serviceName, 'logMessage', [tag, msg]);
@@ -497,7 +497,7 @@ var Enhance = {
         exec(null, null, Enhance.serviceName, "serviceTermsOptOut", []);
     },
 
-    /** 
+    /**
      * @private
      * Object containing IAP support
      */
@@ -513,7 +513,7 @@ var Enhance = {
 
         isSupported : function(resultCallback) {
             exec(resultCallback, null, Enhance.serviceName, 'isPurchasingSupported', []);
-        }, 
+        },
 
         /**
          * @private
@@ -528,13 +528,16 @@ var Enhance = {
         _onPurchaseFailedCallback : null,
         /** @private */
         _onPurchaseSuccessCallback : null,
+        /** @private */
+        _onPurchasePendingCallback : null,
 
-        attemptPurchase : function(sku, onPurchaseSuccessCallback, onPurchaseFailedCallback) {
-            if(typeof sku !== 'string') 
+        attemptPurchase : function(sku, onPurchaseSuccessCallback, onPurchaseFailedCallback, onPurchasePendingCallback) {
+            if(typeof sku !== 'string')
                 sku = '';
 
             Enhance.purchases._onPurchaseSuccessCallback = onPurchaseSuccessCallback;
             Enhance.purchases._onPurchaseFailedCallback = onPurchaseFailedCallback;
+            Enhance.purchases._onPurchasePendingCallback = onPurchasePendingCallback;
 
             exec(Enhance.purchases._handleAttemptPurchaseResult, null, Enhance.serviceName, 'attemptPurchase', [sku]);
         },
@@ -545,10 +548,12 @@ var Enhance = {
          */
 
         _handleAttemptPurchaseResult : function(result) {
-            if(result) {
+            if(result == 0) {
                 if(Enhance.purchases._onPurchaseSuccessCallback != null) Enhance.purchases._onPurchaseSuccessCallback();
-            } else {
+            } else if(result == 1) {
                 if(Enhance.purchases._onPurchaseFailedCallback != null) Enhance.purchases._onPurchaseFailedCallback();
+            } else if(result == 2) {
+                if(Enhance.purchases._onPurchasePendingCallback != null) Enhance.purchases._onPurchasePendingCallback();
             }
         },
 
@@ -562,9 +567,9 @@ var Enhance = {
          */
 
         getDisplayPrice : function(sku, defaultPrice, resultCallback) {
-            if(typeof sku !== 'string') 
+            if(typeof sku !== 'string')
                 sku = '';
-            if(typeof defaultPrice !== 'string') 
+            if(typeof defaultPrice !== 'string')
                 defaultPrice = '';
 
             exec(resultCallback, null, Enhance.serviceName, 'getDisplayPrice', [sku, defaultPrice]);
@@ -573,16 +578,31 @@ var Enhance = {
         /**
          * @private
          * Check if the user has purchased a certain SKU and still has it in their inventory.
-         * 
+         *
          * @param {string} sku - unique product id
          * @param {function} resultCallback - receives result boolean (true/false)
          */
 
         isItemOwned : function(sku, resultCallback) {
-            if(typeof sku !== 'string') 
+            if(typeof sku !== 'string')
                 sku = '';
 
             exec(resultCallback, null, Enhance.serviceName, 'isItemOwned', [sku]);
+        },
+
+        /**
+         * @private
+         * Check if the product has status pending.
+         *
+         * @param {string} sku - unique product id
+         * @param {function} resultCallback - receives result boolean (true/false)
+         */
+
+         isProductStatusPending : function(sku, resultCallback) {
+            if(typeof sku !== 'string')
+                sku = '';
+
+            exec(resultCallback, null, Enhance.serviceName, 'isProductStatusPending', [sku]);
         },
 
         /**
@@ -594,14 +614,14 @@ var Enhance = {
          */
 
         getOwnedItemCount : function(sku, resultCallback) {
-            if(typeof sku !== 'string') 
+            if(typeof sku !== 'string')
                 sku = '';
 
             exec(resultCallback, null, Enhance.serviceName, 'getOwnedItemCount', [sku]);
         },
 
         /** @private */
-        _onConsumeSuccessCallback : null, 
+        _onConsumeSuccessCallback : null,
         /** @private */
         _onConsumeFailedCallback : null,
 

@@ -29,6 +29,7 @@
 - (void)attemptPurchase:(CDVInvokedUrlCommand*)command;
 - (void)getDisplayPrice:(CDVInvokedUrlCommand*)command;
 - (void)isItemOwned:(CDVInvokedUrlCommand*)command;
+- (void)isProductStatusPending:(CDVInvokedUrlCommand*)command;
 - (void)getOwnedItemCount:(CDVInvokedUrlCommand*)command;
 - (void)consumePurchase:(CDVInvokedUrlCommand*)command;
 - (void)manuallyRestorePurchases:(CDVInvokedUrlCommand*)command;
