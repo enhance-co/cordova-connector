@@ -29,12 +29,12 @@ import co.enhance.EnhanceInAppPurchases;
 public class CDVEnhance extends CordovaPlugin {
    // Tag for logging
    public static final String TAG = "EnhanceCordova";
-   
+
    // Cordova connector version
-   private static final String CORDOVA_CONNECTOR_VERSION = "3.0.0";
-      
+   private static final String CORDOVA_CONNECTOR_VERSION = "3.1.0";
+
    // Initialize connector
-   
+
    @Override
    public void initialize (CordovaInterface cordova, CordovaWebView webView) {
         super.initialize (cordova, webView);
@@ -42,9 +42,9 @@ public class CDVEnhance extends CordovaPlugin {
         Log.d (TAG, "initialize Cordova connector version " + CORDOVA_CONNECTOR_VERSION + " with activity " + activity);
         Enhance.initialize (activity);
     }
-   
+
    // Execute Enhance command
-   
+
    @Override
    public boolean execute (String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         // Set interstitial callback
@@ -132,14 +132,14 @@ public class CDVEnhance extends CordovaPlugin {
                         Log.i (TAG, "onRewardGranted");
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, resultArray));
                     }
-               
+
                     @Override
                     public void onRewardDeclined() {
                         // Reward declined
                         Log.i (TAG, "onRewardDeclined");
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, "declined"));
                     }
-               
+
                     @Override
                     public void onRewardUnavailable() {
                         // Reward unavailable
@@ -175,7 +175,7 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 String strPosition = args.getString (0);
                 String placement = args.getString(1).toLowerCase();
-            
+
                 Enhance.Position pos = Enhance.Position.TOP;
 
                 if (strPosition != null && strPosition.toUpperCase().equals("BOTTOM"))
@@ -296,7 +296,7 @@ public class CDVEnhance extends CordovaPlugin {
                     Enhance.logEvent(eventType, eventParamKey, eventParamValue);
                 else // Use the simplified version of event logging
                     Enhance.logEvent(eventType);
-            
+
                 callbackContext.success();
                 return true;
             } catch (Exception e) {
@@ -330,15 +330,15 @@ public class CDVEnhance extends CordovaPlugin {
                 Enhance.requestLocalNotificationPermission(new Enhance.PermissionCallback() {
                     @Override
                     public void onPermissionGranted() {
-                        Log.i (TAG, "onPermissionGranted");               
+                        Log.i (TAG, "onPermissionGranted");
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, true));
                     }
 
                     @Override
                     public void onPermissionRefused() {
-                        Log.i (TAG, "onPermissionRefused");               
+                        Log.i (TAG, "onPermissionRefused");
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));;
-                    }         
+                    }
                 });
 
                 return true;
@@ -402,17 +402,23 @@ public class CDVEnhance extends CordovaPlugin {
 
                 Enhance.purchases.attemptPurchase(sku, new EnhanceInAppPurchases.PurchaseCallback() {
                     @Override
-                    public void onPurchaseSuccess() {                       
-                        Log.i (TAG, "onPurchaseSuccess");               
-                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, true));
+                    public void onPurchaseSuccess() {
+                        Log.i (TAG, "onPurchaseSuccess");
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 0));
                     }
 
                     @Override
                     public void onPurchaseFailed() {
-                        Log.i (TAG, "onPurchaseFailed");                
-                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
-                    }                 
-                });      
+                        Log.i (TAG, "onPurchaseFailed");
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 1));
+                    }
+
+                    @Override
+                    public void onPurchasePending() {
+                        Log.i (TAG, "onPurchasePending");
+                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 2));
+                    }
+                });
 
                 return true;
             } catch (Exception e) {
@@ -430,17 +436,17 @@ public class CDVEnhance extends CordovaPlugin {
 
                 Enhance.purchases.consume(sku, new EnhanceInAppPurchases.ConsumeCallback() {
                     @Override
-                    public void onConsumeSuccess() {                        
-                        Log.i (TAG, "onConsumeSuccess");                
+                    public void onConsumeSuccess() {
+                        Log.i (TAG, "onConsumeSuccess");
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, true));
                     }
 
                     @Override
                     public void onConsumeFailed() {
-                        Log.i (TAG, "onConsumeFailed");             
+                        Log.i (TAG, "onConsumeFailed");
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
-                    }                   
-                });      
+                    }
+                });
 
                 return true;
             } catch (Exception e) {
@@ -457,7 +463,7 @@ public class CDVEnhance extends CordovaPlugin {
                 String sku = args.getString (0);
                 String defaultPrice = args.getString (1);
                 String displayPrice = Enhance.purchases.getDisplayPrice(sku, defaultPrice);
-            
+
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, displayPrice));
                 return true;
             } catch (Exception e) {
@@ -477,10 +483,24 @@ public class CDVEnhance extends CordovaPlugin {
                 return true;
             } catch (Exception e) {
                 Log.e (TAG, "exception in isItemOwned: " + e.toString());
-                e.printStackTrace ();   
+                e.printStackTrace ();
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
             }
-        }  
+        }
+
+        // Is product status pending
+
+        else if (action.equals ("isProductStatusPending")) {
+            try {
+                String sku = args.getString (0);
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, Enhance.purchases.isProductStatusPending(sku)));
+                return true;
+            } catch (Exception e) {
+                Log.e (TAG, "exception in isProductStatusPending: " + e.toString());
+                e.printStackTrace ();
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, false));
+            }
+        }
 
         // Get owned item count
 
@@ -489,8 +509,8 @@ public class CDVEnhance extends CordovaPlugin {
                 String sku = args.getString(0);
                 int ownedItemCount = Enhance.purchases.getOwnedItemCount(sku);
 
-                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, ownedItemCount)); 
-                return true;    
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, ownedItemCount));
+                return true;
             } catch(Exception e) {
                 Log.e(TAG, "exception in getOwnedItemCount: " + e.toString());
                 e.printStackTrace();
@@ -503,13 +523,13 @@ public class CDVEnhance extends CordovaPlugin {
             try {
                 Enhance.purchases.manuallyRestorePurchases(new EnhanceInAppPurchases.RestoreCallback() {
                     @Override
-                    public void onRestoreSuccess() 
+                    public void onRestoreSuccess()
                     {
-                        Log.i(TAG, "onRestoreSuccess");                
+                        Log.i(TAG, "onRestoreSuccess");
                         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, true));
                     }
 
-                    @Override 
+                    @Override
                     public void onRestoreFailed()
                     {
                         Log.i(TAG, "onRestoreFailed");
